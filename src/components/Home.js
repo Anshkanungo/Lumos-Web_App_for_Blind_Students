@@ -1,27 +1,17 @@
 import React, { useRef } from "react";
+import { handleSpeak } from "./speechUtils";
 
 export default function HomePage() {
   const hasSpokeRef = useRef(false);
 
-  const handleSpeak = () => {
-    if (!hasSpokeRef.current && window.speechSynthesis) {
-      const message = new SpeechSynthesisUtterance("Welcome to the HOME page");
-      window.speechSynthesis.speak(message);
-      message.addEventListener("end", () => {
-        console.log("Speech synthesis ended");
-        // Reset hasSpokeRef after speech synthesis ends
-        hasSpokeRef.current = false;
-      });
-      hasSpokeRef.current = true;
-    } else {
-      console.error("Speech synthesis is not supported in this browser.");
-    }
+  const handleSpeakButton = () => {
+    handleSpeak(hasSpokeRef, 'homepage');
   };
 
   return (
-    <div>
+    <div className="homepage">
       <h1>Welcome to HOME page</h1>
-      <button onClick={handleSpeak}>Speak</button>
+      <button onClick={handleSpeakButton}>Speak</button>
     </div>
   );
 }
