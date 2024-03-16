@@ -1,33 +1,133 @@
 import React, { useState } from "react";
+import TestDataDisplay from "./Test";
 
 const Chapter = () => {
-  const [userInput, setUserInput] = useState("what is the capital of spain?");
+  const [userInput, setUserInput] = useState("can you very briefly explain the simplified version of this text?");
   const [response, setResponse] = useState("");
+  const [fileContent, setFileContent] = useState("");
+  const [contentChunks, setContentChunks] = useState([]);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
+  const [selectedChunks, setSelectedChunks] = useState([]);
+  const [selectMode, setSelectMode] = useState(false);
 
-  fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.REACT_APP_OPEN_API_KEY}`,
-    },
-    body: JSON.stringify({
-      messages: [{ role: "system", content: userInput }],
-      model: "gpt-3.5-turbo", // specify the model heregit
-      max_tokens: 4000,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      setResponse(data.choices[0].message.content);
-    }) // This should log the API response
-    .catch((error) => console.log(error)); // This should log any errors
+
+  const handleDataFetched = (data) => {
+    setFileContent(data);
+    const chunks = data.split(/\.\s*/g).filter(Boolean).map((chunk) => `${chunk}.`);
+    setContentChunks(chunks);
+  };
+
+  const handlePrev = () => {
+    if (highlightedIndex > 0) {
+      setHighlightedIndex(highlightedIndex - 1);
+      if (selectMode) {
+        setSelectedChunks((prevSelectedChunks) =>
+          prevSelectedChunks.slice(0, highlightedIndex)
+        );
+      }
+    }
+  };
+
+  const handleNext = () => {
+    if (highlightedIndex < contentChunks.length - 1) {
+      setHighlightedIndex(highlightedIndex + 1);
+      if (selectMode) {
+        setSelectedChunks((prevSelectedChunks) => [
+          ...prevSelectedChunks,
+          contentChunks[highlightedIndex + 1],
+        ]);
+      }
+    }
+  };
+
+  const handleSelect = () => {
+    setSelectMode(!selectMode);
+    if (selectMode) {
+      setSelectedChunks([]);
+    } else {
+      setSelectedChunks([contentChunks[highlightedIndex]]);
+    }
+  };
+
+  const handleMeta = () => {
+    const selectedText = selectedChunks.join(" ");
+    var newInput = `${userInput} ${selectedText}`;
+    setSelectedChunks([]);
+    setSelectMode(false);
+    console.log("user input",userInput)
+    console.log("new input",newInput)
+    fetchOpenAIResponse(newInput)
+    setUserInput(newInput);
+  };
+
+  const fetchOpenAIResponse = (input) => {
+    fetch("https://api.openai.com/v1/chat/completions", { 
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.REACT_APP_OPEN_API_KEY}`,
+      },
+      body: JSON.stringify({
+        messages: [{ role: "system", content: input }],
+        model: "gpt-3.5-turbo",
+        max_tokens: 4000,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setResponse(data.choices[0].message.content);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const renderContent = () => {
+    return fileContent.split(/\n/).map((line, index) => (
+      <div key={index}>
+        {line.split(/\.\s*/).map((chunk, chunkIndex) => (
+          <span
+            key={`${index}-${chunkIndex}`}
+            style={{
+              backgroundColor:
+                contentChunks[highlightedIndex] === `${chunk}.`
+                  ? "yellow"
+                  : selectedChunks.includes(`${chunk}.`)
+                  ? "lightgreen"
+                  : "transparent",
+            }}
+          >
+            {chunk}
+            {chunkIndex !== line.split(/\.\s*/).length - 1 && "."}
+          </span>
+        ))}
+        <br />
+      </div>
+    ));
+  };
 
   return (
     <div>
       <h1>This is chapter</h1>
-      {userInput}
-      <br />
-      {response}
+      <TestDataDisplay onDataFetched={handleDataFetched} />
+      <div>
+        <h2>User Input</h2>
+        {userInput}
+      </div>
+      <div>
+        <h2>API Response</h2>
+        {response}
+      </div>
+      <div>
+        <h2>File Content</h2>
+        {renderContent()}
+        <div>
+          <button onClick={handlePrev}>Prev</button>
+          <button onClick={handleNext}>Next</button>
+          <button onClick={handleSelect}>
+            {selectMode ? "Deselect" : "Select"}
+          </button>
+          <button onClick={handleMeta}>Meta</button>
+        </div>
+      </div>
     </div>
   );
 };

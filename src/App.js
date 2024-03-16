@@ -3,6 +3,7 @@ import HomePage from "./components/Home";
 import SubjectPage from "./components/Subject";
 import NotesPage from "./components/Notes";
 import Chapter from "./components/Chapter";
+import TestDataDisplay from "./components/Test";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
@@ -60,6 +61,7 @@ function App() {
           <Route path="/subject" element={<SubjectPage />} />
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/chapter" element={<Chapter />} />
+          <Route path="/test" element={<TestDataDisplay />} />
         </Routes>
 
         {redirect}
