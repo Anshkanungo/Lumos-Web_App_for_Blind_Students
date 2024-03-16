@@ -5,9 +5,7 @@ import NotesPage from "./components/Notes";
 import Chapter from "./components/Chapter";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
 function App() {
   const commands = [
@@ -28,9 +26,14 @@ function App() {
 
   useEffect(() => {
     SpeechRecognition.startListening({ continuous: true });
+
+    const clearTranscriptInterval = setInterval(() => {
+      resetTranscript();
+    }, 10000);
+
     return () => {
       SpeechRecognition.stopListening();
-      resetTranscript();
+      clearInterval(clearTranscriptInterval);
     };
   }, [resetTranscript]);
 
