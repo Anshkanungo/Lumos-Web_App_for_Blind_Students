@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Notes.css";
+import "./Subject.css";
 
 export default function Notes() {
   return (
     <>
       <div className="main">
-        <h1 className="text-blue-400">Notes</h1>
+        <h1 className="">Notes</h1>
         <ul>
           <li>
             <Link to={"/notes/unit-1"}>Unit 1</Link>
