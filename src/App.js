@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HomePage from "./components/Home";
 import SubjectPage from "./components/Subject";
 import NotesPage from "./components/Notes";
@@ -17,7 +17,7 @@ function App() {
     },
   ];
 
-  const { transcript } = useSpeechRecognition({ commands });
+  const { transcript, resetTranscript } = useSpeechRecognition({ commands });
   const [redirectUrl, setRedirectUrl] = useState("");
   const pages = ["home", "subject", "notes"];
   const urls = {
@@ -25,6 +25,14 @@ function App() {
     subject: "/subject",
     notes: "/notes",
   };
+
+  useEffect(() => {
+    SpeechRecognition.startListening({ continuous: true });
+    return () => {
+      SpeechRecognition.stopListening();
+      resetTranscript();
+    };
+  }, [resetTranscript]);
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
     return null;
@@ -55,8 +63,6 @@ function App() {
       </BrowserRouter>
 
       <p id="transcript">Transcript: {transcript}</p>
-
-      <button onClick={SpeechRecognition.startListening}>Start</button>
     </div>
   );
 }
