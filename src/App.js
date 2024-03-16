@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import HomePage from "./components/Home";
 import SubjectPage from "./components/Subject";
 import NotesPage from "./components/Notes";
+import Chapter from "./components/Chapter";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import SpeechRecognition, {
@@ -22,7 +23,7 @@ function App() {
   const urls = {
     home: "/",
     subject: "/subject",
-    notes: "/notes"
+    notes: "/notes",
   };
 
   if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
@@ -42,12 +43,12 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-       
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/subject" element={<SubjectPage />} />
           <Route path="/notes" element={<NotesPage />} />
+          <Route path="/chapter" element={<Chapter />} />
         </Routes>
 
         {redirect}
