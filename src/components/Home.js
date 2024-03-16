@@ -13,11 +13,11 @@ export default function HomePage() {
     <div className="homepage">
       <img className="logo" src={logo} alt="logo" />
       <h1 className="heading">Welcome to Home page </h1>
-      <div className="subject-container">
+      {/* <div className="subject-container">
         <button className="speak-button" onClick={handleSpeakButton}>
           Speak
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

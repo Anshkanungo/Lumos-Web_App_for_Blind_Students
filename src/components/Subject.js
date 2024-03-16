@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./Subject.css";
 
 export default function Subject() {
   return (
@@ -9,21 +10,21 @@ export default function Subject() {
         <div className="subject-container">
           <ul>
             <li>
-              <button>English</button>
+              <button className="subject-btn">English</button>
             </li>
             <li>
-              <button>Hindi</button>
+              <button className="subject-btn">Hindi</button>
             </li>
             <li>
-              <button>Science</button>
+              <button className="subject-btn">Science</button>
             </li>
             <li>
-              <button>Social</button>
+              <button className="subject-btn">Social</button>
             </li>
           </ul>
           <div className="button-container">
-            <button>Back</button>
-            <button>Repeat</button>
+            <button className="subject-btn">Back</button>
+            <button className="subject-btn">Repeat</button>
           </div>
         </div>
       </div>

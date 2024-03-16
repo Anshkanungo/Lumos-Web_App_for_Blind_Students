@@ -6,7 +6,10 @@ import Chapter from "./components/Chapter";
 import TestDataDisplay from "./components/Test";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import English from "./components/English";
 
 function App() {
   const commands = [
@@ -62,6 +65,7 @@ function App() {
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/chapter" element={<Chapter />} />
           <Route path="/test" element={<TestDataDisplay />} />
+          <Route path="/subject/english" element={<English />} />
         </Routes>
         {redirect}
       </BrowserRouter>

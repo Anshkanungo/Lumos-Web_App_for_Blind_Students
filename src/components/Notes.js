@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import "./Subject.css";
+import { handleSpeak } from "./speechUtils";
+import "./Notes.css";
 
 export default function Notes() {
+  const hasSpokeRef = useRef(false);
+  const handleSpeakButton = () => {
+    handleSpeak(hasSpokeRef, "main");
+  };
   return (
     <>
       <div className="main">
@@ -21,13 +26,13 @@ export default function Notes() {
             <Link to={"/notes/unit-4"}>Unit 4</Link>
           </li>
           <li>
-            <Link to={"/unit-5"}>Unit 5</Link>
+            <Link to={"/notes/unit-5"}>Unit 5</Link>
           </li>
         </ul>
 
         <div className="button-container">
           <button>Back</button>
-          <button>Repeat</button>
+          <button onClick={handleSpeakButton}>Speak</button>
         </div>
       </div>
     </>

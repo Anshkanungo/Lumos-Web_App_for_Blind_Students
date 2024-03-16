@@ -46,7 +46,7 @@ li {
   width: 100%;
 }
 
-ul > li > button {
+ul > li > .subject-btn {
   border-radius: 10px;
   outline: none;
   border: none;
@@ -67,7 +67,7 @@ ul > li > button {
   width: 100%;
   justify-content: space-between;
 }
-.button-container > button {
+.button-container > .subject-btn {
   color: #000;
   font-size: 2rem;
   font-weight: bold;

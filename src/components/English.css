@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100%;
+  width: 100%;
+}
+ul > li > button {
+  padding: 45px 0px;
+  font-size: 1.7rem;
+}
+
+.english-btn {
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  display: block;
+  padding: 45px 0px;
+  width: 100%;
+  text-decoration: none;
+  font-weight: bold;
+  color: #14142a;
+  background-color: #b5cff8;
+  font-size: 1.4rem;
+}
+.button-container > .english-btn {
+  border-radius: 0;
+  color: #000;
+  font-size: 2rem;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  background-color: #b5cff8;
+  width: 50%;
+  padding: 40px 20px;
+}
