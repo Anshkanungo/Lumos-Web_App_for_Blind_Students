@@ -63,7 +63,6 @@ function App() {
           <Route path="/chapter" element={<Chapter />} />
           <Route path="/test" element={<TestDataDisplay />} />
         </Routes>
-
         {redirect}
       </BrowserRouter>
 
