@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TestDataDisplay from "./Test";
+import { Speak } from "./speechUtils";
+import { specialCharMap } from "@testing-library/user-event/dist/keyboard";
 
 const Chapter = () => {
-  const [userInput, setUserInput] = useState("can you very briefly explain the simplified version of this text?");
+  const [userInput, setUserInput] = useState("can you briefly explain the simplified version of this text?");
   const [response, setResponse] = useState("");
   const [fileContent, setFileContent] = useState("");
   const [contentChunks, setContentChunks] = useState([]);
@@ -19,6 +21,8 @@ const Chapter = () => {
 
   const handlePrev = () => {
     if (highlightedIndex > 0) {
+      const prevChunk = contentChunks[highlightedIndex - 1];
+      Speak(prevChunk); // Speak the current chunk
       setHighlightedIndex(highlightedIndex - 1);
       if (selectMode) {
         setSelectedChunks((prevSelectedChunks) =>
@@ -26,19 +30,25 @@ const Chapter = () => {
         );
       }
     }
+    navigator.vibrate([200]);
   };
+  
 
   const handleNext = () => {
     if (highlightedIndex < contentChunks.length - 1) {
+      const nextChunk = contentChunks[highlightedIndex + 1];
+      Speak(nextChunk); // Speak the current chunk
       setHighlightedIndex(highlightedIndex + 1);
       if (selectMode) {
         setSelectedChunks((prevSelectedChunks) => [
           ...prevSelectedChunks,
-          contentChunks[highlightedIndex + 1],
+          nextChunk,
         ]);
       }
     }
+    navigator.vibrate([300]);
   };
+  
 
   const handleSelect = () => {
     setSelectMode(!selectMode);
@@ -47,6 +57,7 @@ const Chapter = () => {
     } else {
       setSelectedChunks([contentChunks[highlightedIndex]]);
     }
+    navigator.vibrate([600]);
   };
 
   const handleMeta = () => {
@@ -58,6 +69,9 @@ const Chapter = () => {
     console.log("new input",newInput)
     fetchOpenAIResponse(newInput)
     setUserInput(newInput);
+    navigator.vibrate([700]);
+    setUserInput("")
+    newInput = "";
   };
 
   const fetchOpenAIResponse = (input) => {
@@ -76,14 +90,17 @@ const Chapter = () => {
       .then((response) => response.json())
       .then((data) => {
         setResponse(data.choices[0].message.content);
+        Speak(data.choices[0].message.content)
       })
       .catch((error) => console.log(error));
+    
   };
 
   const renderContent = () => {
     return fileContent.split(/\n/).map((line, index) => (
       <div key={index}>
         {line.split(/\.\s*/).map((chunk, chunkIndex) => (
+          
           <span
             key={`${index}-${chunkIndex}`}
             style={{
@@ -93,6 +110,7 @@ const Chapter = () => {
                   : selectedChunks.includes(`${chunk}.`)
                   ? "lightgreen"
                   : "transparent",
+
             }}
           >
             {chunk}
@@ -100,6 +118,7 @@ const Chapter = () => {
           </span>
         ))}
         <br />
+        
       </div>
     ));
   };
