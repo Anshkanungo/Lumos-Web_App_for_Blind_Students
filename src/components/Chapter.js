@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import TestDataDisplay from "./Test";
 import { Speak, handleSpeak } from "./speechUtils";
 import { useNavigate } from "react-router-dom";
-import { saveAs } from 'file-saver';
-
 
 const Chapter = () => {
   const [userInput, setUserInput] = useState("can you briefly explain the simplified version of this text?");
@@ -28,7 +26,7 @@ const Chapter = () => {
   const handleBack = async () => {
     try {
       const resultString = result.join('\\n'); // Convert the array to a string with newlines
-      const response = await fetch('http://localhost:5000/save-file', {
+      const response = await fetch(`${process.env.REACT_APP_OPEN_API}save-file`, {
         method: 'POST',
         headers: {
           'Content-Type': 'text/plain',
