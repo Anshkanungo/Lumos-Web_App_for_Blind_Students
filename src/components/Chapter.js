@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TestDataDisplay from "./Test";
-import { Speak, handleSpeak } from "./speechUtils";
+import { Speak } from "./speechUtils";
 import { useNavigate } from "react-router-dom";
 
 const Chapter = () => {
@@ -42,6 +42,7 @@ const Chapter = () => {
     } catch (error) {
       console.error('Error saving file:', error);
     }
+    navigate(-1)
   };
     
 
@@ -192,7 +193,7 @@ const Chapter = () => {
           <button style={{ width: "100%", height: "15vh" }} onClick={handleBack }>back</button>
         </div>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
-          <button style={{ width: "100%", height: "15vh" }} onClick={handleSpeak}>speak</button>
+          <button style={{ width: "100%", height: "15vh" }}>speak</button>
         </div>
       </div>
     </div>
