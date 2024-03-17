@@ -31,6 +31,7 @@ const English = () => {
   const { transcript } = useSpeechRecognition({ commands });
 
   const handleSpeakButton = () => {
+    navigator.vibrate([300]);
     handleSpeak("english-page");
   };
 
@@ -51,6 +52,7 @@ const English = () => {
   };
 
   const handleGoBack = () => {
+    navigator.vibrate([300]);
     navigate(-1);
   };
 
@@ -86,7 +88,7 @@ const English = () => {
             </li>
           </ul>
           <div className="button-container">
-            <button className="english-btn" onClick={() => navigate(-1)}>
+            <button className="english-btn" onClick={handleGoBack}>
               Back
             </button>
             <button className="english-btn" onClick={handleSpeakButton}>

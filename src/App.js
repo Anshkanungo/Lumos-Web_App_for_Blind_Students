@@ -22,7 +22,6 @@ function App() {
           <Route path="/test" element={<TestDataDisplay />} />
           <Route path="/subject/english" element={<English />} />
           <Route path="/meto" element={<Meto />} />
-          
           <Route path="/english" element={<English />} />
           <Route path="/login" element={<Login />} />
         </Routes>
