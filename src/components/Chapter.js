@@ -4,7 +4,9 @@ import { Speak } from "./speechUtils";
 import { useNavigate } from "react-router-dom";
 
 const Chapter = () => {
-  const [userInput, setUserInput] = useState("can you briefly explain the simplified version of this text?");
+  const [userInput, setUserInput] = useState(
+    "can you briefly explain the simplified version of this text?"
+  );
   const [response, setResponse] = useState("");
   const [fileContent, setFileContent] = useState("");
   const [contentChunks, setContentChunks] = useState([]);
@@ -13,38 +15,42 @@ const Chapter = () => {
   const [selectMode, setSelectMode] = useState(false);
   const navigate = useNavigate();
   const [result, setResult] = useState([]);
-  const [data, setData] = useState('');
-
+  const [data, setData] = useState("");
 
   const handleDataFetched = (data) => {
     setFileContent(data);
-    const chunks = data.split(/\.\s*/g).filter(Boolean).map((chunk) => `${chunk}.`);
+    const chunks = data
+      .split(/\.\s*/g)
+      .filter(Boolean)
+      .map((chunk) => `${chunk}.`);
     setContentChunks(chunks);
   };
 
-
   const handleBack = async () => {
     try {
-      const resultString = result.join('\\n'); // Convert the array to a string with newlines
-      const response = await fetch(`${process.env.REACT_APP_OPEN_API}save-file`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain',
-        },
-        body: resultString,
-      });
+      const resultString = result.join("\\n"); // Convert the array to a string with newlines
+      const response = await fetch(
+        `${process.env.REACT_APP_OPEN_API}save-file`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain",
+          },
+          body: resultString,
+        }
+      );
 
       if (response.ok) {
-        console.log('File saved successfully on the server.');
+        console.log("File saved successfully on the server.");
       } else {
-        console.error('Error saving file on the server.');
+        console.error("Error saving file on the server.");
       }
     } catch (error) {
-      console.error('Error saving file:', error);
+      console.error("Error saving file:", error);
     }
-    navigate(-1)
+    navigator.vibrate([200]);
+    navigate(-1);
   };
-    
 
   const handlePrev = () => {
     if (highlightedIndex > 0) {
@@ -59,7 +65,6 @@ const Chapter = () => {
     }
     navigator.vibrate([200]);
   };
-  
 
   const handleNext = () => {
     if (highlightedIndex < contentChunks.length - 1) {
@@ -75,8 +80,6 @@ const Chapter = () => {
     }
     navigator.vibrate([300]);
   };
-  
-  
 
   const handleSelect = () => {
     setSelectMode(!selectMode);
@@ -88,17 +91,21 @@ const Chapter = () => {
     navigator.vibrate([600]);
   };
 
+  const handle = () => {
+    navigator.vibrate([500]);
+  };
+
   const handleMeta = () => {
     const selectedText = selectedChunks.join(" ");
     var newInput = `${userInput} ${selectedText}`;
     setSelectedChunks([]);
     setSelectMode(false);
-    console.log("user input",userInput)
-    console.log("new input",newInput)
-    fetchOpenAIResponse(newInput)
+    console.log("user input", userInput);
+    console.log("new input", newInput);
+    fetchOpenAIResponse(newInput);
     setUserInput(newInput);
     navigator.vibrate([700]);
-    setUserInput("")
+    setUserInput("");
     newInput = "";
   };
 
@@ -118,20 +125,18 @@ const Chapter = () => {
       .then((response) => response.json())
       .then((data) => {
         const responseData = data.choices[0].message.content;
-        setResult(prevResult => [...prevResult, responseData]); // Update result state with new data
+        setResult((prevResult) => [...prevResult, responseData]); // Update result state with new data
         console.log("Result array:", result); // Log the result array to check if it has content
         setResponse(responseData);
         Speak(responseData);
       })
       .catch((error) => console.log(error));
   };
-  
 
   const renderContent = () => {
     return fileContent.split(/\n/).map((line, index) => (
       <div key={index}>
         {line.split(/\.\s*/).map((chunk, chunkIndex) => (
-          
           <span
             key={`${index}-${chunkIndex}`}
             style={{
@@ -141,7 +146,6 @@ const Chapter = () => {
                   : selectedChunks.includes(`${chunk}.`)
                   ? "lightgreen"
                   : "transparent",
-
             }}
           >
             {chunk}
@@ -149,7 +153,6 @@ const Chapter = () => {
           </span>
         ))}
         <br />
-        
       </div>
     ));
   };
@@ -174,31 +177,55 @@ const Chapter = () => {
           </div>
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
-          <button style={{ width: "100%", height: "15vh" }} onClick={handlePrev}>Prev</button>
+          <button
+            style={{ width: "100%", height: "15vh" }}
+            onClick={handlePrev}
+          >
+            Prev
+          </button>
         </div>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
-          <button style={{ width: "100%", height: "15vh" }} onClick={handleNext}>Next</button>
+          <button
+            style={{ width: "100%", height: "15vh" }}
+            onClick={handleNext}
+          >
+            Next
+          </button>
         </div>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
-          <button style={{ width: "100%", height: "15vh" }} onClick={handleSelect}>
+          <button
+            style={{ width: "100%", height: "15vh" }}
+            onClick={handleSelect}
+          >
             {selectMode ? "Deselect" : "Select"}
           </button>
         </div>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
-          <button style={{ width: "100%", height: "15vh" }} onClick={handleMeta}>Meta</button>
+          <button
+            style={{ width: "100%", height: "15vh" }}
+            onClick={handleMeta}
+          >
+            Meta
+          </button>
         </div>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
-          <button style={{ width: "100%", height: "15vh" }} onClick={handleBack }>back</button>
+          <button
+            style={{ width: "100%", height: "15vh" }}
+            onClick={handleBack}
+          >
+            back
+          </button>
         </div>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
-          <button style={{ width: "100%", height: "15vh" }}>speak</button>
+          <button style={{ width: "100%", height: "15vh" }} onClick={handle}>
+            speak
+          </button>
         </div>
       </div>
     </div>
   );
-  
 };
 
 export default Chapter;

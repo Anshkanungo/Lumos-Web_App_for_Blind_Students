@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Subject.css";
 import { handleSpeak } from "./speechUtils";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 export default function Subject() {
   const subjects = ["english", "hindi", "science", "social"];
@@ -20,10 +22,15 @@ export default function Subject() {
     {
       command: "select *",
       callback: (subject) => handleSubjectSelection(subject),
-    }
+    },
   ];
 
   const { transcript } = useSpeechRecognition({ commands });
+
+  const handleGoBack = () => {
+    navigate(-1);
+    navigator.vibrate([200]);
+  };
 
   const handleSpeakButton = () => {
     handleSpeak("subject-page");
@@ -34,7 +41,7 @@ export default function Subject() {
     const matchingSubject = subjects.find(
       (subj) => subj === recognizedSubject.toLowerCase()
     );
-    console.log(matchingSubject)
+    console.log(matchingSubject);
     navigate(`/${matchingSubject}`);
   };
 
@@ -55,12 +62,15 @@ export default function Subject() {
           ))}
         </ul>
         <div className="button-container">
-          <button className="subject-btn" onClick={handleSpeakButton}>
+          <button className="english-btn" onClick={handleGoBack}>
+            Back
+          </button>
+          <button className="english-btn" onClick={handleSpeakButton}>
             Speak
           </button>
         </div>
       </div>
-      <p>You said: {transcript}</p>
+      {/* <p>You said: {transcript}</p> */}
     </div>
   );
 }

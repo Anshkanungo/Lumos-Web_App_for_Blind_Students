@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { Navigate, useNavigate } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpToggle, setOtpToggle] = useState(false);
+  const navigate = useNavigate();
 
   const toggleOtpInput = () => {
     setOtpToggle(!otpToggle);
@@ -21,6 +24,7 @@ const Login = () => {
   };
 
   const handleClick = () => {
+    navigate("/home");
     setOtpToggle(true);
     console.log(email, otp);
   };
