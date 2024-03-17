@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TestDataDisplay from "./Test";
-import { Speak } from "./speechUtils";
+import { Speak, handleSpeak } from "./speechUtils";
+import { useNavigate } from "react-router-dom";
+import { saveAs } from 'file-saver';
+
 
 const Chapter = () => {
   const [userInput, setUserInput] = useState("can you briefly explain the simplified version of this text?");
@@ -10,6 +13,9 @@ const Chapter = () => {
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [selectedChunks, setSelectedChunks] = useState([]);
   const [selectMode, setSelectMode] = useState(false);
+  const navigate = useNavigate();
+  const [result, setResult] = useState([]);
+  const [data, setData] = useState('');
 
 
   const handleDataFetched = (data) => {
@@ -17,6 +23,29 @@ const Chapter = () => {
     const chunks = data.split(/\.\s*/g).filter(Boolean).map((chunk) => `${chunk}.`);
     setContentChunks(chunks);
   };
+
+
+  const handleBack = async () => {
+    try {
+      const resultString = result.join('\\n'); // Convert the array to a string with newlines
+      const response = await fetch('http://localhost:5000/save-file', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+        body: resultString,
+      });
+
+      if (response.ok) {
+        console.log('File saved successfully on the server.');
+      } else {
+        console.error('Error saving file on the server.');
+      }
+    } catch (error) {
+      console.error('Error saving file:', error);
+    }
+  };
+    
 
   const handlePrev = () => {
     if (highlightedIndex > 0) {
@@ -48,6 +77,7 @@ const Chapter = () => {
     navigator.vibrate([300]);
   };
   
+  
 
   const handleSelect = () => {
     setSelectMode(!selectMode);
@@ -74,7 +104,7 @@ const Chapter = () => {
   };
 
   const fetchOpenAIResponse = (input) => {
-    fetch("https://api.openai.com/v1/chat/completions", { 
+    fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,12 +118,15 @@ const Chapter = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setResponse(data.choices[0].message.content);
-        Speak(data.choices[0].message.content)
+        const responseData = data.choices[0].message.content;
+        setResult(prevResult => [...prevResult, responseData]); // Update result state with new data
+        console.log("Result array:", result); // Log the result array to check if it has content
+        setResponse(responseData);
+        Speak(responseData);
       })
       .catch((error) => console.log(error));
-    
   };
+  
 
   const renderContent = () => {
     return fileContent.split(/\n/).map((line, index) => (
@@ -105,7 +138,7 @@ const Chapter = () => {
             style={{
               backgroundColor:
                 contentChunks[highlightedIndex] === `${chunk}.`
-                  ? "yellow"
+                  ? "green"
                   : selectedChunks.includes(`${chunk}.`)
                   ? "lightgreen"
                   : "transparent",
@@ -123,31 +156,50 @@ const Chapter = () => {
   };
 
   return (
-    <div>
-      <h1>This is chapter</h1>
-      <TestDataDisplay onDataFetched={handleDataFetched} />
-      <div>
-        <h2>User Input</h2>
-        {userInput}
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+      <div style={{ flex: "1", overflowY: "auto" }}>
+        <div style={{ height: "50vh", overflowY: "auto" }}>
+          <h1>This is chapter</h1>
+          <TestDataDisplay onDataFetched={handleDataFetched} />
+          <div>
+            <h2>User Input</h2>
+            {userInput}
+          </div>
+          <div>
+            <h2>API Response</h2>
+            {response}
+          </div>
+          <div>
+            <h2>File Content</h2>
+            {renderContent()}
+          </div>
+        </div>
       </div>
-      <div>
-        <h2>API Response</h2>
-        {response}
-      </div>
-      <div>
-        <h2>File Content</h2>
-        {renderContent()}
-        <div>
-          <button onClick={handlePrev}>Prev</button>
-          <button onClick={handleNext}>Next</button>
-          <button onClick={handleSelect}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", }}>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <button style={{ width: "100%", height: "15vh" }} onClick={handlePrev}>Prev</button>
+        </div>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <button style={{ width: "100%", height: "15vh" }} onClick={handleNext}>Next</button>
+        </div>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <button style={{ width: "100%", height: "15vh" }} onClick={handleSelect}>
             {selectMode ? "Deselect" : "Select"}
           </button>
-          <button onClick={handleMeta}>Meta</button>
+        </div>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <button style={{ width: "100%", height: "15vh" }} onClick={handleMeta}>Meta</button>
+        </div>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <button style={{ width: "100%", height: "15vh" }} onClick={handleBack }>back</button>
+        </div>
+        <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
+          <button style={{ width: "100%", height: "15vh" }} onClick={handleSpeak}>speak</button>
         </div>
       </div>
     </div>
   );
+  
 };
 
 export default Chapter;

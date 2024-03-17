@@ -43,7 +43,7 @@ const English = () => {
         navigate("/notes");
         break;
       case "mnemonics":
-        // Handle mnemonics logic
+        navigate("/meto")
         break;
       default:
         break;

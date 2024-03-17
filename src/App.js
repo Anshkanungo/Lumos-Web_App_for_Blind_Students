@@ -10,6 +10,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import English from "./components/English";
+import Meto from "./components/Meto"
 
 function App() {
   const commands = [
@@ -65,6 +66,8 @@ function App() {
           <Route path="/chapter" element={<Chapter />} />
           <Route path="/test" element={<TestDataDisplay />} />
           <Route path="/subject/english" element={<English />} />
+          <Route path="/meto" element={<Meto />} />
+          
         </Routes>
         {redirect}
       </BrowserRouter>
