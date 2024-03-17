@@ -31,6 +31,7 @@ export default function Notes() {
   const { transcript } = useSpeechRecognition({ commands });
 
   const handleSpeakButton = () => {
+    navigator.vibrate([300]);
     handleSpeak("notes-page");
   };
 
@@ -61,6 +62,7 @@ export default function Notes() {
   };
 
   const handleGoBack = () => {
+    navigator.vibrate([300]);
     navigate(-1);
   };
 

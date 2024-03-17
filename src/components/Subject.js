@@ -27,6 +27,7 @@ export default function Subject() {
 
   const handleSpeakButton = () => {
     handleSpeak("subject-page");
+    navigator.vibrate([300]);
   };
 
   const handleSubjectSelection = (recognizedSubject) => {

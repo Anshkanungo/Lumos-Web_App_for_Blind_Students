@@ -66,7 +66,7 @@ const Meto = () => {
         
           </ul>
           <div className="button-container">
-            <button className="english-btn" onClick={() => navigate(-1)}>
+            <button className="english-btn" onClick={handleGoBack}>
               Back
             </button>
             <button className="english-btn" onClick={handleSpeakButton}>
