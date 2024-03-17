@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100%;
+  width: 100%;
+}
+.login-heading {
+  font-size: 2.5rem;
+  text-align: center;
+}
+.login-page {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: rebeccapurple; */
+}
+.form-container {
+  width: 100%;
+  padding: 50px 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.label-input-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.label-field {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+.input-field {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+.get-otp {
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 1.4rem;
+}
