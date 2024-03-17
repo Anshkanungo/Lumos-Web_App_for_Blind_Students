@@ -159,25 +159,32 @@ const Chapter = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <div style={{ flex: "1", overflowY: "auto" }}>
+      <div style={{ flex: "1", overflowY: "auto", padding: "0 20px" }}>
         <div style={{ height: "50vh", overflowY: "auto" }}>
-          <h1>This is chapter</h1>
+          <h1 style={{ marginBottom: "10px" }}>This is chapter</h1>
           <TestDataDisplay onDataFetched={handleDataFetched} />
-          <div>
-            <h2>User Input</h2>
+          <div style={{ marginBottom: "15px" }}>
+            <h2 style={{ marginBottom: "10px" }}>User Input</h2>
             {userInput}
           </div>
-          <div>
-            <h2>API Response</h2>
+          <div style={{ marginBottom: "15px" }}>
+            <h2 style={{ marginBottom: "10px" }}>Summarized Text</h2>
             {response}
           </div>
-          <div>
-            <h2>File Content</h2>
+          <div style={{ marginBottom: "15px" }}>
+            <h2 style={{ marginBottom: "10px" }}>File Content</h2>
             {renderContent()}
           </div>
         </div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "5px",
+          paddingTop: "20px",
+        }}
+      >
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
           <button
             style={{ width: "100%", height: "15vh" }}
@@ -215,7 +222,7 @@ const Chapter = () => {
             style={{ width: "100%", height: "15vh" }}
             onClick={handleBack}
           >
-            back
+            Back
           </button>
         </div>
         <div style={{ flex: "1", display: "flex", justifyContent: "center" }}>
