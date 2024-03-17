@@ -1,61 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./components/Home";
 import SubjectPage from "./components/Subject";
 import NotesPage from "./components/Notes";
 import Chapter from "./components/Chapter";
 import TestDataDisplay from "./components/Test";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Navigate } from "react-router-dom";
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
 import English from "./components/English";
 import Meto from "./components/Meto"
+import Login from "./components/Login";
 
 function App() {
-  const commands = [
-    {
-      command: ["Go to * page", "Go to *", "Open * page", "Open *"],
-      callback: (redirectPage) => setRedirectUrl(redirectPage),
-    },
-  ];
-
-  const { transcript, resetTranscript } = useSpeechRecognition({ commands });
-  const [redirectUrl, setRedirectUrl] = useState("");
-  const pages = ["home", "subject", "notes"];
-  const urls = {
-    home: "/",
-    subject: "/subject",
-    notes: "/notes",
-  };
-
-  useEffect(() => {
-    SpeechRecognition.startListening({ continuous: true });
-
-    const clearTranscriptInterval = setInterval(() => {
-      resetTranscript();
-    }, 10000);
-
-    return () => {
-      SpeechRecognition.stopListening();
-      clearInterval(clearTranscriptInterval);
-    };
-  }, [resetTranscript]);
-
-  if (!SpeechRecognition.browserSupportsSpeechRecognition()) {
-    return null;
-  }
-
-  let redirect = "";
-
-  if (redirectUrl) {
-    if (pages.includes(redirectUrl)) {
-      redirect = <Navigate to={urls[redirectUrl]} />;
-    } else {
-      redirect = <p>Could not find page: {redirectUrl}</p>;
-    }
-  }
-
+  
   return (
     <div className="App">
       <BrowserRouter>
@@ -68,11 +23,10 @@ function App() {
           <Route path="/subject/english" element={<English />} />
           <Route path="/meto" element={<Meto />} />
           
+          <Route path="/english" element={<English />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
-        {redirect}
       </BrowserRouter>
-
-      <p id="transcript">Transcript: {transcript}</p>
     </div>
   );
 }
