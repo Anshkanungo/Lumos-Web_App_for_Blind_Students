@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TestDataDisplay from "./Test";
 import { Speak } from "./speechUtils";
-import { specialCharMap } from "@testing-library/user-event/dist/keyboard";
 
 const Chapter = () => {
   const [userInput, setUserInput] = useState("can you briefly explain the simplified version of this text?");
