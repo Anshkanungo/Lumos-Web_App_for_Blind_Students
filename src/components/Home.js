@@ -10,7 +10,7 @@ export default function HomePage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/subject");
-    }, 15000);
+    }, 7000);
 
     return () => clearTimeout(timer);
   }, [navigate]);
