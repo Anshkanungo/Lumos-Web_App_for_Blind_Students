@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpToggle, setOtpToggle] = useState(false);
+
+  const toggleOtpInput = () => {
+    setOtpToggle(!otpToggle);
+  };
+
+  const handleEmailChange = (e) => {
+    e.preventDefault();
+    setEmail(e.target.value);
+  };
+
+  const handleOtpChange = (e) => {
+    e.preventDefault();
+    setOtp(e.target.value);
+  };
+
+  const handleClick = () => {
+    setOtpToggle(true);
+    console.log(email, otp);
+  };
+
   return (
     <>
       <div className="login-page">
@@ -15,9 +38,10 @@ const Login = () => {
               autoComplete="tel"
               id="mobile"
               inputMode="tel"
-              placeholder="Enter your mobile number"
+              placeholder="Enter your Email"
               type="tel"
               className="input-field"
+              onChange={(e) => handleEmailChange(e)}
             />
             <input
               autoComplete="tel"
@@ -26,9 +50,11 @@ const Login = () => {
               placeholder="Enter OTP"
               type="tel"
               className="input-field"
+              style={{ display: otpToggle ? "block" : "none" }}
+              onChange={(e) => handleOtpChange(e)}
             />
           </div>
-          <button className="get-otp" type="submit">
+          <button className="get-otp" type="button" onClick={handleClick}>
             Get OTP
           </button>
         </form>

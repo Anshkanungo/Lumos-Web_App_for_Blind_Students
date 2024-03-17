@@ -70,19 +70,19 @@ export default function Notes() {
         <h1 className="">Notes</h1>
         <ul>
           <li>
-            <Link to={"/notes/unit-1"}>Unit 1</Link>
+            <Link to={"/chapter"}>Unit 1</Link>
           </li>
           <li>
-            <Link to={"/notes/unit-2"}>Unit 2</Link>
+            <Link to={"/chapter"}>Unit 2</Link>
           </li>
           <li>
-            <Link to={"/notes/unit-3"}>Unit 3</Link>
+            <Link to={"/chapter"}>Unit 3</Link>
           </li>
           <li>
-            <Link to={"/notes/unit-4"}>Unit 4</Link>
+            <Link to={"/chapter"}>Unit 4</Link>
           </li>
           <li>
-            <Link to={"/notes/unit-5"}>Unit 5</Link>
+            <Link to={"/chapter"}>Unit 5</Link>
           </li>
         </ul>
 

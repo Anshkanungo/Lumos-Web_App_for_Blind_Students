@@ -6,11 +6,10 @@ import NotesPage from "./components/Notes";
 import Chapter from "./components/Chapter";
 import TestDataDisplay from "./components/Test";
 import English from "./components/English";
-import Meto from "./components/Meto"
+import Meto from "./components/Meto";
 import Login from "./components/Login";
 
 function App() {
-  
   return (
     <div className="App">
       <BrowserRouter>
@@ -22,7 +21,7 @@ function App() {
           <Route path="/test" element={<TestDataDisplay />} />
           <Route path="/subject/english" element={<English />} />
           <Route path="/meto" element={<Meto />} />
-          
+
           <Route path="/english" element={<English />} />
           <Route path="/login" element={<Login />} />
         </Routes>
