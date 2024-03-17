@@ -5,7 +5,6 @@ import { handleSpeak } from "./speechUtils";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
 export default function Subject() {
-  const [subject, setSubject] = useState("");
   const subjects = ["english", "hindi", "science", "social"];
   const navigate = useNavigate();
 
@@ -21,11 +20,7 @@ export default function Subject() {
     {
       command: "select *",
       callback: (subject) => handleSubjectSelection(subject),
-    },
-    {
-      command: "go back",
-      callback: () => handleGoBack(),
-    },
+    }
   ];
 
   const { transcript } = useSpeechRecognition({ commands });
@@ -39,13 +34,7 @@ export default function Subject() {
       (subj) => subj === recognizedSubject.toLowerCase()
     );
     console.log(matchingSubject)
-    if (matchingSubject) {
-      setSubject(matchingSubject);
-    }
-  };
-
-  const handleGoBack = () => {
-    navigate(-1)
+    navigate(`/${matchingSubject}`);
   };
 
   return (
@@ -65,7 +54,6 @@ export default function Subject() {
           ))}
         </ul>
         <div className="button-container">
-          <button className="subject-btn" onClick={() => navigate(-1)}>Back </button>
           <button className="subject-btn" onClick={handleSpeakButton}>
             Speak
           </button>

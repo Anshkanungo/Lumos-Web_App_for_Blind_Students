@@ -40,7 +40,7 @@ const English = () => {
         // Handle transcript logic
         break;
       case "notes":
-        // Handle notes logic
+        navigate("/notes");
         break;
       case "mnemonics":
         // Handle mnemonics logic

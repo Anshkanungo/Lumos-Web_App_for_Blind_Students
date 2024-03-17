@@ -52,9 +52,9 @@ export default function Notes() {
     };
 
     if (typeof unitNumber === "number" && unitNumber >= 1 && unitNumber <= 5) {
-      navigate(`/notes/unit-${unitNumber}`);
+      navigate("/chapter");
     } else if (numberMap[unitNumber]) {
-      navigate(`/notes/unit-${numberMap[unitNumber]}`);
+      navigate("/chapter");
     } else {
       console.log("Invalid unit number");
     }
@@ -91,7 +91,7 @@ export default function Notes() {
           <button onClick={handleSpeakButton}>Speak</button>
         </div>
       </div>
-      {/* <p>You said: {transcript}</p> */}
+      <p>You said: {transcript}</p>
     </>
   );
 }
