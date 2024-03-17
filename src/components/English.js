@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { handleSpeak } from "./speechUtils";
 import { useNavigate } from "react-router-dom";
 import "./English.css";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 const English = () => {
   const navigate = useNavigate();
@@ -59,17 +61,26 @@ const English = () => {
         <div className="subject-container">
           <ul>
             <li>
-              <button className="english-btn" onClick={() => handleCommand("transcript")}>
+              <button
+                className="english-btn"
+                onClick={() => handleCommand("transcript")}
+              >
                 Transcript
               </button>
             </li>
             <li>
-              <button className="english-btn" onClick={() => handleCommand("notes")}>
+              <button
+                className="english-btn"
+                onClick={() => handleCommand("notes")}
+              >
                 Notes
               </button>
             </li>
             <li>
-              <button className="english-btn" onClick={() => handleCommand("mnemonics")}>
+              <button
+                className="english-btn"
+                onClick={() => handleCommand("mnemonics")}
+              >
                 Mnemonics
               </button>
             </li>

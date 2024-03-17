@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { handleSpeak } from "./speechUtils";
 import "./Notes.css";
-import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
 export default function Notes() {
   const navigate = useNavigate();
@@ -36,27 +38,27 @@ export default function Notes() {
     let unitNumber = unit.split(" ")[1];
 
     if (!isNaN(parseInt(unitNumber))) {
-        unitNumber = parseInt(unitNumber);
+      unitNumber = parseInt(unitNumber);
     } else {
-        unitNumber = unitNumber.toLowerCase();
+      unitNumber = unitNumber.toLowerCase();
     }
 
     const numberMap = {
-        "one": 1,
-        "two": 2,
-        "three": 3,
-        "four": 4,
-        "five": 5
+      one: 1,
+      two: 2,
+      three: 3,
+      four: 4,
+      five: 5,
     };
 
-    if (typeof unitNumber === 'number' && unitNumber >= 1 && unitNumber <= 5) {
-        navigate(`/notes/unit-${unitNumber}`);
+    if (typeof unitNumber === "number" && unitNumber >= 1 && unitNumber <= 5) {
+      navigate(`/notes/unit-${unitNumber}`);
     } else if (numberMap[unitNumber]) {
-        navigate(`/notes/unit-${numberMap[unitNumber]}`);
+      navigate(`/notes/unit-${numberMap[unitNumber]}`);
     } else {
-        console.log("Invalid unit number");
+      console.log("Invalid unit number");
     }
-};
+  };
 
   const handleGoBack = () => {
     navigate(-1);
@@ -89,7 +91,7 @@ export default function Notes() {
           <button onClick={handleSpeakButton}>Speak</button>
         </div>
       </div>
-      <p>You said: {transcript}</p>
+      {/* <p>You said: {transcript}</p> */}
     </>
   );
 }
