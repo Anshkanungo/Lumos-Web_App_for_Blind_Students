@@ -1,4 +1,3 @@
-Certainly! Here's the updated README with all the details:
 
 ---
 
@@ -28,7 +27,7 @@ Lumos is a MERN (MongoDB, Express.js, React.js, Node.js) stack web application s
 
 To run Lumos locally, follow these steps:
 
-1. **Clone the Repository**: `git clone https://github.com/yourusername/lumos.git`
+1. **Clone the Repository**: `https://github.com/Anshkanungo/lumos`
 2. **Install Dependencies**: Navigate to the project directory and run `cd lumos-api` to install backend dependencies, then `npm install` to install frontend dependencies.
 3. **Set Up Environment Variables**: Create a `.env` file in the root directory and add necessary environment variables such as MongoDB URI and API keys.
 4. **Start the Development Server**: Run `npm install` and then `npm start` to start both the backend and frontend servers concurrently.
