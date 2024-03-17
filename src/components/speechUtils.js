@@ -42,15 +42,13 @@ const describePosition = (rect) => {
     return positionInfo;
 };
 
-const handleSpeak = (hasSpokeRef, className) => {
+const handleSpeak = (className) => {
     const allText = logAllText(className);
-    if (allText !== '' && !hasSpokeRef.current && window.speechSynthesis) {
-        const message = new SpeechSynthesisUtterance(allText);
-        window.speechSynthesis.speak(message);
-        message.addEventListener("end", () => {
-            hasSpokeRef.current = false;
-        });
-        hasSpokeRef.current = true;
+    console.log(allText)
+    if (allText !== '' && window.speechSynthesis) {
+        var utter = new window.SpeechSynthesisUtterance(allText);
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utter);
     } else {
         console.error("Speech synthesis is not supported in this browser.");
     }
@@ -58,11 +56,12 @@ const handleSpeak = (hasSpokeRef, className) => {
 
 const Speak = (text) => {
     if (text !== '' && window.speechSynthesis) {
-        const message = new SpeechSynthesisUtterance(text);
-        window.speechSynthesis.speak(message);
+        var utter = new window.SpeechSynthesisUtterance(text);
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(utter);
     } else {
         console.error("Speech synthesis is not supported in this browser or the provided text is empty.");
     }
 };
 
-export {handleSpeak, Speak};
+export { handleSpeak, Speak };
